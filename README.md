@@ -1,36 +1,38 @@
-# gaia-breaks — *Born to be a star*
+# gaia-breaks: Born to be a star
 
-A fixed, authored WebGL audiovisual piece. It plays identically every time —
-hand-choreographed to the track, not reactive. Four movements tell a story of
-struggle and collapse: **Dead World → Fallen Titan → The Maw → The Gate**.
+A WebGL piece set to one track. It does not react to the audio. Every moment is
+choreographed by hand, so it plays the same every time.
 
-The aesthetic is fake-game-UI + breakcore + doom: a cinematic vista corrupted by
-ink, glitch and a diegetic HUD that surges with the music, then powers down into a
-quiet resolution. The render engine periodically "breaks" into a wireframe/debug
-X-ray view on authored beats.
+It has four movements: Dead World, Fallen Titan, The Maw, The Gate. It is a story
+of struggle. 七転び八起き: fall seven times, get up eight.
+
+It looks like a game screen that is breaking. There is a wide scene, a HUD drawn
+on top of it, and glitches that grow with the music. On a few chosen beats the
+picture flips to a wireframe view. At the end it goes quiet.
 
 ## Run
 
 ```bash
 npm install
-npm run dev      # Vite dev server + scrubber at localhost:5173
-npm test         # Vitest logic tests
-npm run build    # single self-contained dist/index.html
+npm run dev      # dev server with a time scrubber, at localhost:5173
+npm test         # logic tests
+npm run build    # one self-contained dist/index.html
 ```
 
-The production build inlines everything (JS, shaders, audio) into one
-`dist/index.html` you can open or share directly — no server required.
+The build puts everything (code, shaders, audio) into `dist/index.html`. You can
+open that file or send it to someone. It needs no server.
 
 ## How it works
 
-The audio's `currentTime` is the master clock. `src/score.js` (pure) maps time to a
-movement blend, a corruption level, UI cues and render-mode breaks, all driven by
-authored keyframes in `src/score-data.js`. Each frame renders two scenes to textures;
-`corruption.frag` mixes and shreds them to screen; `ui/uiLayer.js` overlays the HUD.
-
-Scenes are raw WebGL2 fragment shaders (procedural SDF / raymarch-lite), no meshes.
+- The audio's current time is the only clock.
+- `src/score-data.js` holds the keyframes. `src/score.js` turns a time into what
+  to show: which movement, how much corruption, which HUD parts, wireframe on or off.
+- Each frame draws the outgoing and incoming movement into two textures.
+  `corruption.frag` mixes them and glitches the result. `ui/uiLayer.js` draws the
+  HUD on top.
+- The scenes are plain WebGL2 fragment shaders. There are no meshes and no libraries.
 
 ## Note
 
-The track itself is a personal working asset and is not included in this repository.
-Drop an audio file at `audio/born-to-be-a-star.mp3` to run it locally.
+The track is not in this repository. To run it, put an audio file at
+`audio/born-to-be-a-star.mp3`.
